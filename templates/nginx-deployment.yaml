@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-nginx-deployment
+spec:
+  replicas: {{ .Values.nginx.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: {{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          value: {{ .Values.nginx.env.DB_HOST | quote }}
+        - name: DB_PORT
+          value: {{ .Values.nginx.env.DB_PORT | quote }}
+        - name: DB_USER
+          value: {{ .Values.nginx.env.DB_USER | quote }}
+        - name: DB_PASSWORD
+          value: {{ .Values.nginx.env.DB_PASSWORD | quote }}
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      - name: postgresql-client
+        image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
+        command: ["/bin/sleep"]
+        args: ["infinity"]
+        env:
+        - name: PGPASSWORD
+          value: {{ .Values.nginx.env.DB_PASSWORD | quote }}
+      volumes:
+      - name: html
+        configMap:
+          name: {{ .Values.nginx.configMapName }}

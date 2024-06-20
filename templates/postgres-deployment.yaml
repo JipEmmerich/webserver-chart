@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgres-deployment
+spec:
+  replicas: {{ .Values.postgres.replicaCount }}
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
+        ports:
+        - containerPort: {{ .Values.postgres.service.port }}
+        env:
+        - name: POSTGRES_DB
+          value: {{ .Values.postgres.env.POSTGRES_DB | quote }}
+        - name: POSTGRES_USER
+          value: {{ .Values.postgres.env.POSTGRES_USER | quote }}
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.postgres.env.POSTGRES_PASSWORD | quote }}
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-postgres-pvc
