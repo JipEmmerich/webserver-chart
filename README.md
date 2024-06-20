@@ -14,5 +14,7 @@ Volg deze stappen om de Helm chart te installeren.
 ### Voeg de Helm repository toe & Installeer de chart
 
 helm repo add webserver-chart https://JipEmmerich.github.io/webserverchart/
+
 helm repo update
+
 helm install my-webserver webserver-chart/webserver-chart
