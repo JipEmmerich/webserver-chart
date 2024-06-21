@@ -1,6 +1,6 @@
 # My Webserver Chart
 
-Dit is een Helm chart voor het deployen van een webserver met een PostgreSQL database op Kubernetes.
+Dit is een Helm chart voor het deployen van een webserver met een PostgresSQL database op Kubernetes.
 
 ## Voorbereiding
 
