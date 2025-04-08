@@ -9,6 +9,6 @@ entries:
     name: webserver-chart
     type: application
     urls:
-    - https://github.com/JipEmmerich/webserver-chart.git/webserver-chart-0.1.0.tgz
+    - https://jipemmerich.github.io/webserver-chart/webserver-chart-0.1.0.tgz
     version: 0.1.0
 generated: "2024-06-20T18:34:56.254682526Z"
